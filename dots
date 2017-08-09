@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+shopt -s nullglob
+declare -a ignored=("." ".." "README.md" ".git" ".bash")
+declare -a files=(.*)
+declare -al commands=("sync" "install" "link" "backup" "clean")
+
+function __copy_dotfile_to_home { echo "/usr/bin/rsync -a $PWD/$1 $HOME"; }
+function __copy_dotfile_from_home { echo "/usr/bin/rsync -a $HOME/$1 $PWD/$1"; }
+function __symlink_dotfile_to_home { echo "/bin/ln -s $PWD/$1 $HOME/$1"; }
+function __create_backup_dotfile { echo "/bin/mv $HOME/$1 $HOME/$1.bak"; }
+function __remove_backup_dotfile { echo "/bin/rm -r $HOME/$1.bak"; }
+function __sync_existing_dotfile { "/usr/bin/rsync" "-a" "$HOME/$1" "$PWD/"; }
+
+function __loop {
+  for file in "${files[@]}"; do
+    if ! [[ ${ignored[*]} =~ $file ]]; then
+      $1 "$file"
+    fi
+  done
+}
+
+function __exec_command { echo "$2"; __loop "$1"; echo "$3"; }
+
+function __install { __exec_command __copy_dotfile_to_home "copying dotfiles…" "dotfiles copied!"; }
+function __sync { __exec_command __sync_existing_dotfile "syncing existing commands…" "dotfiles synced!"; }
+function __link { __exec_command __symlink_dotfile_to_home "linking dotfiles…" "dotfiles linked!"; }
+function __backup { __exec_command __create_backup_dotfile "creating backups…" "dotfiles backed up as .bak files."; }
+function __clean { __exec_command __remove_backup_dotfile "cleaning up backups…" "backups cleaned up!"; }
+
+if [ "$1" == "install" ]; then __install; fi
+if [ "$1" == "sync" ]; then __sync ; fi
+if [ "$1" == "link" ]; then __link; fi
+if [ "$1" == "backup" ]; then __backup; fi
+if [ "$1" == "clean" ]; then __clean; fi
+
+if ! [[ ${commands[*]} =~ $1 ]]; then
+  exec echo "
+  usage: dots [option]
+
+  available options:
+    sync     copy dotfiles from $HOME into this repository
+    install  copy dotfiles from this repository into $HOME
+    link     symlink dotfiles from this repository into $HOME
+    backup   create backup files for all dotfiles in $HOME
+    clean    remove backup files in $HOME
+"
+fi
+
+unset ignored files commands

@@ -1,0 +1,15 @@
+*.bak
+
+.tmux/plugins/*
+.tmux/resurrect/*
+
+.vim/autoload/plug.vim
+.vim/plugged/*
+.vim/undodir/*
+.vim/view/*
+
+node_modules
+.buildpath
+.project
+
+.DS_Store
