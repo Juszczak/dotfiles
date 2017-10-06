@@ -75,6 +75,9 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 15
 # disable MacVim <Ctrl-Click> menu
 defaults write org.vim.MacVim MMTranslateCtrlClick 0
 
+# disable MacVim Title Bar
+defaults write org.vim.MacVim MMNoTitleBarWindow true
+
 # stop iTunes from responding to the keyboard media keys
 launchctl unload -w /System/Library/LaunchAgents/com.apple.rcd.plist 2> /dev/null
 

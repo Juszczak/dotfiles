@@ -36,12 +36,22 @@ function __pip_install {
   local -a packages=(
     "vim-vint"
     "jedi"
+    "proselint"
     "pylint"
   )
 
-  for package in "${packages[@]}"
-  do
+  for package in "${packages[@]}"; do
     eval "pip install $package"
+  done
+}
+
+function __gem_install {
+  local -a gems=(
+    "rubocop"
+  )
+
+  for gem in "${gems[@]}"; do
+    eval "gem install $gem"
   done
 }
 
@@ -51,6 +61,7 @@ function __brew_install {
     "bash"
     "bash-completion"
     "cmake"
+    "editorconfig"
     "git"
     "gnutls"
     "htop"
@@ -76,8 +87,7 @@ function __brew_install {
   # Upgrade any already-installed formulae.
   brew upgrade
 
-  for bundle in "${bundles[@]}"
-  do
+  for bundle in "${bundles[@]}"; do
     eval "brew install $bundle"
   done
 
@@ -89,10 +99,10 @@ function __brew_cask_install {
     "iterm2"
     "haskell-platform"
     "macvim"
+    "vagrant"
   )
 
-  for app in "${apps[@]}"
-  do
+  for app in "${apps[@]}"; do
     eval "brew cask install $app"
   done
 }

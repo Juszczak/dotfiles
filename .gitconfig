@@ -4,7 +4,7 @@
 	signingkey = ***REMOVED***
 
 [core]
-	editor = vim
+	editor = reattach-to-user-namespace vim
 	pager = less -x2
 	excludesfile = ~/.gitignore
 

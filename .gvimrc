@@ -7,3 +7,8 @@ set guioptions-=L  " remove left-hand scroll bar
 set guioptions-=M  " extreme: does not source the menu script
 
 set guifont=Source\ Code\ Pro:h13
+
+if has('gui_macvim')
+  " run macvim in full-screen mode
+  set fullscreen
+endif

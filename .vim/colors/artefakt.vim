@@ -9,7 +9,17 @@ set background=dark
 " notice: colors_name must be set after syntax reset
 let g:colors_name='artefakt'
 
-highlight Normal       guibg=#242424 guifg=#f5f5f5 gui=NONE      ctermbg=NONE ctermfg=231  cterm=NONE
+if (has('gui_running'))
+	highlight Normal       guibg=#212121    guifg=#f5f5f5 gui=NONE      ctermbg=NONE ctermfg=231  cterm=NONE
+	highlight EndOfBuffer  guibg=#212121    guifg=#242424               ctermbg=NONE
+	highlight VertSplit    guibg=#212121    guifg=#2d2d2d gui=NONE      ctermbg=NONE ctermfg=238  cterm=NONE
+else
+	" transparent background in terminal
+	highlight Normal       guibg=NONE    guifg=#f5f5f5 gui=NONE      ctermbg=NONE ctermfg=231  cterm=NONE
+	highlight EndOfBuffer  guibg=NONE    guifg=#242424               ctermbg=NONE
+	highlight VertSplit    guibg=NONE    guifg=#2d2d2d gui=NONE      ctermbg=NONE ctermfg=238  cterm=NONE
+endif
+
 highlight Cursor       guibg=NONE    guifg=NONE    gui=reverse   ctermbg=NONE ctermfg=NONE cterm=reverse
 
 highlight CursorLine   guibg=#2d2d2d guifg=NONE    gui=NONE      ctermbg=236  ctermfg=NONE cterm=NONE
@@ -21,12 +31,10 @@ highlight ColorColumn  guibg=#303030 guifg=NONE    gui=NONE      ctermbg=237  ct
 
 highlight StatusLine   guibg=#242424 guifg=#808080 gui=NONE      ctermbg=238  ctermfg=239  cterm=NONE
 highlight StatusLineNC guibg=#242424 guifg=#555555 gui=NONE      ctermbg=238  ctermfg=239  cterm=NONE
-highlight VertSplit    guibg=#242424 guifg=#2d2d2d gui=NONE      ctermbg=238  ctermfg=238  cterm=NONE
 
 highlight Conceal      guibg=#f5f5f5 guifg=#3a3a3a gui=NONE      ctermbg=NONE ctermfg=237  cterm=NONE
 highlight SpecialKey   guibg=NONE    guifg=#3a3a3a gui=NONE      ctermbg=NONE ctermfg=237  cterm=NONE
 
-highlight EndOfBuffer  guibg=#242424 guifg=#242424               ctermbg=232
 highlight QuickFixLine guibg=#242424               gui=NONE
 highlight qfSeparator  guibg=NONE    guifg=#555555
 
@@ -34,7 +42,7 @@ highlight Visual       guibg=#444444 guifg=NONE    gui=NONE      ctermbg=238  ct
 
 highlight LineNr       guibg=NONE guifg=#808080    gui=NONE      ctermbg=NONE  ctermfg=239  cterm=NONE
 
-highlight Comment      guibg=NONE    guifg=#808080 gui=italic    ctermbg=NONE ctermfg=244  cterm=NONE
+highlight Comment      guibg=NONE    guifg=#808080 gui=italic    ctermbg=NONE ctermfg=244  cterm=italic
 highlight NonText      guibg=NONE    guifg=#808080 gui=NONE
 
 highlight Directory    guibg=NONE    guifg=#a8a8a8 gui=bold      ctermbg=NONE ctermfg=248  cterm=bold
@@ -49,14 +57,14 @@ highlight PmenuSbar    guibg=#2d2d2d guifg=#f5f5f5 gui=NONE
 highlight PmenuThumb   guibg=#aaaaaa guifg=#aaaaaa gui=NONE
 
 highlight Constant     guibg=NONE    guifg=#dcdb26 gui=NONE                                cterm=NONE
-highlight String       guibg=NONE    guifg=#ffd700 gui=italic
-highlight Character    guibg=NONE    guifg=#ffd700 gui=italic
+highlight String       guibg=NONE    guifg=#ffd700 gui=italic                              cterm=italic
+highlight Character    guibg=NONE    guifg=#ffd700 gui=italic                              cterm=italic
 highlight Number       guibg=NONE    guifg=#5f5faf gui=NONE      ctermbg=NONE ctermfg=081
 highlight Boolean      guibg=NONE    guifg=#5f5faf gui=NONE      ctermbg=NONE ctermfg=028
 
-highlight Folded       guibg=#1c1c1c guifg=#767676 gui=italic    ctermbg=243  ctermfg=236
-highlight vimFold      guibg=#242424 guifg=#767676 gui=italic    ctermbg=238  ctermfg=236
-highlight FoldColumn   guibg=#242424 guifg=#767676 gui=italic    ctermbg=238  ctermfg=236
+highlight Folded       guibg=#1c1c1c guifg=#767676 gui=italic    ctermbg=243  ctermfg=236  cterm=italic
+highlight vimFold      guibg=#242424 guifg=#767676 gui=italic    ctermbg=238  ctermfg=236  cterm=italic
+highlight FoldColumn   guibg=#242424 guifg=#767676 gui=italic    ctermbg=238  ctermfg=236  cterm=italic
 
 highlight Title        guibg=NONE    guifg=#f5f5f5
 
@@ -70,7 +78,7 @@ highlight PreProc      guibg=NONE    guifg=#a8a8a8 gui=NONE
 highlight Include      guibg=NONE    guifg=#00d8ff gui=NONE
 highlight Type         guibg=NONE    guifg=#5fff5f gui=NONE                                cterm=NONE    term=NONE
 highlight Structure    guibg=NONE    guifg=#af87ff
-highlight StorageClass guibg=NONE    guifg=#00af00 gui=italic
+highlight StorageClass guibg=NONE    guifg=#00af00 gui=italic                              cterm=italic
 highlight Typedef      guibg=NONE    guifg=#f0db4f
 highlight Special      guibg=NONE    guifg=#c6538c gui=NONE                   ctermfg=231
 highlight Tag          guibg=NONE    guifg=#c6538c
@@ -99,7 +107,7 @@ highlight  ALEErrorSign        guibg=NONE    guifg=#f54d27                    ct
 highlight  ALEWarningSign      guibg=NONE    guifg=#cdd129                    ctermbg=NONE ctermfg=184
 
 " signature
-highlight SignatureMarkText  guibg=NONE    guifg=#444444 gui=italic
+highlight SignatureMarkText  guibg=NONE    guifg=#444444 gui=italic           cterm=italic
 
 " nerdtree
 highlight NERDTreeCWD                guibg=NONE guifg=#eeeeee gui=NONE   ctermbg=NONE ctermfg=255  cterm=NONE
@@ -123,8 +131,8 @@ highlight NERDTreeGitStatusRenamed              guifg=#cdd129 gui=NONE   ctermfg
 highlight NERDTreeGitStatusModified             guifg=#cd0000 gui=NONE   ctermfg=009
 highlight NERDTreeGitStatusUnmerged             guifg=#cd0000 gui=NONE   ctermfg=009
 highlight NERDTreeGitStatusDirDirty             guifg=#cd0000 gui=NONE   ctermfg=009
-highlight NERDTreeGitStatusUntracked            guifg=#808080 gui=italic ctermfg=244
-highlight NERDTreeGitStatusIgnored              guifg=#808080 gui=italic ctermfg=244
+highlight NERDTreeGitStatusUntracked            guifg=#808080 gui=italic ctermfg=244  cterm=italic
+highlight NERDTreeGitStatusIgnored              guifg=#808080 gui=italic ctermfg=244  cterm=italic
 
 " nerdtree filetypes
 function! s:setNERDTreeFileTypesColors()
@@ -199,6 +207,9 @@ function! s:setNERDTreeFileTypesColors()
 	syntax match NERDTreeFileProcfile #Dokerfile$# containedin=NERDTreeFile
 	highlight NERDTreeFileDokerfile   guibg=NONE guifg=#0087C9 ctermbg=NONE ctermfg=033
 
+	syntax match NERDTreeFileVagrant  #Vagrantfile$# containedin=NERDTreeFile
+	highlight NERDTreeFileVagrant     guibg=NONE guifg=#005fff ctermbg=NONE ctermfg=027
+
 	syntax match NERDTreeFileEslint   #eslintrc$# containedin=NERDTreeFile
 	highlight NERDTreeFileEslint      guibg=NONE guifg=#463fd4 ctermbg=NONE ctermfg=062
 
@@ -214,9 +225,6 @@ function! s:setNERDTreeFileTypesColors()
 endfunction
 
 augroup NERDTreeFileTypes
-	" if !exists('s:nerdtree_filetypes_loaded')
-	"   let s:nerdtree_filetypes_loaded = 1
 	autocmd!
 	autocmd FileType nerdtree silent call s:setNERDTreeFileTypesColors()
-	" endif
 augroup END

@@ -2,6 +2,9 @@
 
 syntax on
 
+" theme
+colorscheme artefakt
+
 set hidden
 
 set modeline
@@ -42,8 +45,8 @@ set backspace=indent,eol,start
 " disable annoying beeping
 set noerrorbells vb t_vb=
 
-" non-gui cursor shape
 if !has('gui_running')
+	" cursor shape
 	if exists('$TMUX')
 		let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 		let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
@@ -53,12 +56,23 @@ if !has('gui_running')
 		let &t_SR = "\<Esc>]50;CursorShape=2\x7"
 		let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 	endif
+
+	" truecolor
+	set termguicolors
+	set t_Co=256
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let g:guicolors=1
+
+	" italics
+	set t_ZH=[3m
+	set t_ZR=[23m
 endif
 
 " diff fold
 if &diff
-	set cursorline
-	" set norelativenumber
+	set nocursorline
+	set norelativenumber
 	set foldcolumn=2
 endif
 
@@ -138,13 +152,6 @@ set breakindent
 
 set fillchars+=vert:⎸
 
-" truecolor
-set termguicolors
-set t_Co=256
-let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-let g:guicolors=1
-
 set noshowmode
 
 " remove comment leader when joining lines
@@ -173,51 +180,46 @@ noremap <leader>x :bdel<cr>
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
 
-nnoremap <silent> <esc> :nohlsearch<cr>
-nnoremap <silent> 0 :call ToggleHome()<cr>
+nnoremap <silent> <leader>\ :nohlsearch<cr>
 
 " hex dump
 " http://vim.wikia.com/wiki/Improved_hex_editing
 nmap <f12> :%!xxd<cr>
 
-noremap <silent> <C-LeftMouse> :call TypeScriptGoToDefinition()<cr>
-nnoremap <silent> <M-LeftMouse> :call TypeScriptGoToReferences()<cr>
-
-nmap <silent> <c-c><c-d> :call TypeScriptGoToDefinition()<cr>
-nmap <silent> <c-c><c-r> :call TypeScriptGoToReferences()<cr>
-
 " functions
+
+if !has('gui_running')
+	function! ToggleCopyPasteMode()
+		set invpaste paste?
+		if &paste
+			setlocal clipboard=unnamed
+		else
+			setlocal clipboard=
+		endif
+	endfunction
+	map <silent> <F2> :call ToggleCopyPasteMode()<cr>
+endif
+
 function! ToggleHome()
 	let l:position = getpos('.')
-
 	execute 'normal! ^'
 	if l:position == getpos('.')
 		execute 'normal! 0'
 	endif
 endfunction
+nnoremap <silent> 0 :call ToggleHome()<cr>
 
-function! Escape()
-	:nohlsearch
-	:silent! !
+function! s:Escape()
+	" MacVim issue
+	:silent nohlsearch
+	" :silent! !
 	let l:filetypes = ['typescript', 'javascript', 'python']
-	if (join(l:filetypes) =~ &filetype)
+	if (!empty(&filetype) && join(l:filetypes) =~ &filetype)
 		:SemanticHighlight
 	endif
 endfunction
 
-function! TypeScriptGoToDefinition()
-	if &filetype ==? 'typescript'
-		:YcmCompleter GoToDefinition
-	endif
-endfunction
-
-function! TypeScriptGoToReferences()
-	if &filetype ==? 'typescript'
-		:YcmCompleter GoToReferences
-	endif
-endfunction
-
-function! WindowEnter()
+function! s:WindowEnter()
 	if &number
 		setlocal relativenumber
 	endif
@@ -225,7 +227,8 @@ function! WindowEnter()
 	setlocal cursorline
 endfunction
 
-function! WindowLeave()
+
+function! s:WindowLeave()
 	if &number && &relativenumber
 		setlocal norelativenumber
 	endif
@@ -234,26 +237,18 @@ function! WindowLeave()
 endfunction
 
 " events
-augroup CurrentWindow
-	autocmd!
-	autocmd VimEnter,WinEnter,BufWinEnter * call WindowEnter()
-	autocmd WinLeave * call WindowLeave()
-augroup END
 
-augroup SemanticHighlightFiletypeEvents
-	autocmd!
-	autocmd FileType * :call Escape()
-	autocmd InsertLeave * :call Escape()
-augroup END
-
-" vim-plug (https://github.com/junegunn/vim-plug) settings
-" automatically install vim-plug and run PlugInstall if vim-plug not found
-if empty(glob('~/.vim/autoload/plug.vim'))
-	silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-		\ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	augroup VimPlug
+if has('gui')
+	augroup CurrentWindow
 		autocmd!
-		autocmd VimEnter * PlugInstall | source $MYVIMRC
+		autocmd VimEnter,WinEnter,BufWinEnter * call s:WindowEnter()
+		autocmd WinLeave * call s:WindowLeave()
+	augroup END
+
+	augroup SemanticHighlightFiletypeEvents
+		autocmd!
+		autocmd FileType * :call s:Escape()
+		autocmd InsertLeave * :call s:Escape()
 	augroup END
 endif
 
@@ -356,7 +351,14 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
-" https://github.com/ctrlpvim/ctrlp.vim
+noremap <silent> <C-LeftMouse> :YcmCompleter GoToDefinition<cr>
+nnoremap <silent> <M-LeftMouse> :YcmCompleter GoToReferences<cr>
+
+nmap <silent> <leader>td :YcmCompleter GoToDefinition<cr>
+nmap <silent> <leader>tr :YcmCompleter GoToReferences<cr>
+nmap <silent> <leader>tg :YcmCompleter GetType<cr>
+
+" " https://github.com/ctrlpvim/ctrlp.vim
 Plug 'ctrlpvim/ctrlp.vim'
 nmap <leader>cc :CtrlPClearAllCaches<cr>
 let g:ctrlp_working_path_mode = 'ra'
@@ -411,7 +413,11 @@ function! AirlineThemePatch(palette)
 	if g:airline_theme ==? 'dark'
 		let s:a = ['#d0d0d0', '#444444', 252, 238]
 		let s:b = ['#d0d0d0', '#303030', 252, 236]
-		let s:c = ['#eeeeee', '#242424', 255, 235]
+		if (has('gui_running'))
+			let s:c = ['#eeeeee', '#212121', 255, 235]
+		else
+			let s:c = ['#eeeeee', 'NONE', 255, 235]
+		endif
 		let s:modified = {'airline_c': ['#bcbcbc', '#585858', 250, 240, '']}
 
 		let g:airline#themes#dark#palette.normal = airline#themes#generate_color_map(s:a, s:b, s:c)
@@ -422,6 +428,7 @@ function! AirlineThemePatch(palette)
 		let g:airline#themes#dark#palette.visual_modified = g:airline#themes#dark#palette.normal_modified
 		let g:airline#themes#dark#palette.replace = copy(g:airline#themes#dark#palette.normal)
 		let g:airline#themes#dark#palette.replace_modified = g:airline#themes#dark#palette.insert_modified
+		let g:airline#themes#dark#palette.insert_paste = copy(g:airline#themes#dark#palette.normal)
 
 		if get(g:, 'loaded_ctrlp', 0)
 			let g:airline#themes#dark#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(s:a, s:b, s:c)
@@ -486,19 +493,6 @@ nmap <leader>f :Neoformat<cr>
 " https://github.com/alvan/vim-closetag
 Plug 'alvan/vim-closetag'
 
-" https://github.com/airblade/vim-rooter
-Plug 'airblade/vim-rooter'
-let g:rooter_manual_only = 1
-let g:rooter_silent_chdir = 1
-
-" https://github.com/Yggdroot/indentLine
-Plug 'Yggdroot/indentLine'
-let g:indentLine_enabled = 1
-let g:indentLine_char = '⎸'
-let g:indentLine_concealcursor = ''
-let g:indentLine_conceallevel = 2
-let g:indentLine_color_gui = '#2d2d2d'
-
 " https://github.com/jiangmiao/auto-pairs
 Plug 'jiangmiao/auto-pairs'
 
@@ -508,18 +502,12 @@ Plug 'tpope/vim-surround'
 " https://github.com/tmhedberg/matchit
 Plug 'tmhedberg/matchit'
 
-" https://github.com/airblade/vim-matchquote
-Plug 'airblade/vim-matchquote'
-
 " https://github.com/kshenoy/vim-signature
 Plug 'kshenoy/vim-signature'
 let g:SignatureMarkTextHLDynamic = 1
 
-" https://github.com/chrisbra/NrrwRgn
-Plug 'chrisbra/NrrwRgn'
-
-" https://github.com/gorodinskiy/vim-coloresque
-Plug 'gorodinskiy/vim-coloresque'
+" " https://github.com/gorodinskiy/vim-coloresque
+" Plug 'gorodinskiy/vim-coloresque'
 
 " https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'
@@ -527,13 +515,7 @@ Plug 'mbbill/undotree'
 " https://github.com/tpope/vim-scriptease
 Plug 'tpope/vim-scriptease'
 
-" https://github.com/severin-lemaignan/vim-minimap
-Plug 'severin-lemaignan/vim-minimap'
-
 call plug#end()
-
-" theme
-colorscheme artefakt
 
 " debug syntax highlighting group under the cursor
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
