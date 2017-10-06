@@ -9,11 +9,11 @@ function __source {
 
 function __load_scripts {
   local -a filenames=(
+    "aliases"
     "core"
     "dependencies"
     "dircolors"
     "env"
-    "marks"
     "exports"
     "path"
     "prompt"

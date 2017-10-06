@@ -27,3 +27,6 @@ export LC_ALL='en_US.UTF-8';
 
 # Don’t clear the screen after quitting a manual page.
 export MANPAGER='less -X';
+
+# Set up custom python interactive shell prompt
+export PYTHONSTARTUP="$HOME/.python/startup.py"

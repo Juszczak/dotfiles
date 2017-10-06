@@ -1,5 +1,7 @@
 *.bak
 
+*.pyc
+
 .tmux/plugins/*
 .tmux/resurrect/*
 
