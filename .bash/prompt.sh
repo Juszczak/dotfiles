@@ -10,35 +10,30 @@ function __wrapper {
 
 function __ps1 {
   local prefix empty_prefix joiner is_prompt_empty=1
-  prefix="${b_bg}${b_fg}${b_bg}${space}"
-  joiner="${b_fg}${b_bg}${space}"
+  prefix="${user_bg}${user_fg}${user_bg}${space}"
+  joiner="${user_fg}${user_bg}${space}"
 
-  # section "b" header
-  empty_prefix="${b_fg}${b_bg}${space}"
+  empty_prefix="${user_fg}${user_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
 
-  # section "b" slices
   __wrapper "$USER" "$prefix" "$space" && {
     prefix="$joiner";
     is_prompt_empty=0;
   }
 
-  # section "a" header
-  prefix="${a_bg}${a_fg}${a_bg}${space}"
-  joiner="${a_fg}${a_bg}${space}"
-  empty_prefix="${a_fg}${a_bg}${space}"
+  prefix="${branch_bg}${branch_fg}${branch_bg}${space}"
+  joiner="${branch_fg}${branch_bg}${space}"
+  empty_prefix="${branch_fg}${branch_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
 
-  # section "a" slices
   __wrapper "$(__branch)" "$prefix" "$space" && {
     prefix="$joiner";
     is_prompt_empty=0;
   }
 
-  # section "c" header
-  prefix="${c_bg}${c_fg}${c_bg}${space}"
-  joiner="${c_fg}${c_bg}${space}"
-  empty_prefix="${c_fg}${c_bg}${space}"
+  prefix="${cwd_bg}${cwd_fg}${cwd_bg}${space}"
+  joiner="${cwd_fg}${cwd_bg}${space}"
+  empty_prefix="${cwd_fg}${cwd_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
 
   # section "c" slices
@@ -52,10 +47,10 @@ function __ps1 {
 
 function __ps1_short {
   local prefix empty_prefix joiner is_prompt_empty=1
-  prefix="${b_bg}${b_fg}${b_bg}${space}"
-  joiner="${b_fg}${b_bg}${space}"
+  prefix="${user_bg}${user_fg}${user_bg}${space}"
+  joiner="${user_fg}${user_bg}${space}"
 
-  empty_prefix="${b_fg}${b_bg}${space}"
+  empty_prefix="${user_fg}${user_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
 
   __wrapper "$" "$prefix" "$space" && {
@@ -68,10 +63,10 @@ function __ps1_short {
 
 function __ps2 {
   local prefix empty_prefix joiner is_prompt_empty=1
-  prefix="${b_bg}${b_fg}${b_bg}${space}"
-  joiner="${b_fg}${b_bg}${space}"
+  prefix="${user_bg}${user_fg}${user_bg}${space}"
+  joiner="${user_fg}${user_bg}${space}"
 
-  empty_prefix="${b_fg}${b_bg}${space}"
+  empty_prefix="${user_fg}${user_bg}${space}"
   [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
 
   __wrapper "⤷ >" "$prefix" "$space" && {
@@ -113,7 +108,7 @@ function __cwd {
   local cwd="${PWD/#$HOME/$tilde}"
 
   # get first char of the path, i.e. tilde or slash
-  [[ -n ${ZSH_VERSION-} ]] && first_char=$cwd[1,1] || first_char=${cwd::1}
+  first_char=${cwd::1}
 
   # remove leading tilde
   cwd="${cwd#\~}"
@@ -132,22 +127,29 @@ function __cwd {
   printf "%s" "$first_char$formatted_cwd"
 }
 
+function __last_status {
+  local status=""
+  if [ "$last_status" != 0 ]; then
+    status=" $last_status"
+  fi
+
+  printf "%s" "${reset_bg}$reset$space"
+}
+
 function __prompt {
+  local last_status=$?
   local esc=$'[' end_esc=m
   local noprint='\[' end_noprint='\]'
   local wrap="$noprint$esc" end_wrap="$end_esc$end_noprint"
   local space=" "
   local reset="${wrap}0${end_wrap}"
   local reset_bg="${wrap}49${end_wrap}"
-
-  local a_fg="${wrap}38;5;252${end_wrap}"
-  local a_bg="${wrap}48;5;236${end_wrap}"
-
-  local b_fg="${wrap}38;5;252${end_wrap}"
-  local b_bg="${wrap}48;5;238${end_wrap}"
-
-  local c_fg="${wrap}38;5;252${end_wrap}"
-  local c_bg="${wrap}48;5;234${end_wrap}"
+  local branch_fg="${wrap}38;5;252${end_wrap}"
+  local branch_bg="${wrap}48;5;236${end_wrap}"
+  local user_fg="${wrap}38;5;252${end_wrap}"
+  local user_bg="${wrap}48;5;238${end_wrap}"
+  local cwd_fg="${wrap}38;5;252${end_wrap}"
+  local cwd_bg="${wrap}48;5;234${end_wrap}"
 
   if [ "$PS1_SHORT" == 1 ]; then
     PS1="$(__ps1_short)"
