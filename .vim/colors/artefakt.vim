@@ -168,6 +168,9 @@ function! s:setNERDTreeFileTypesColors()
 	syntax match NERDTreeFileMd       #\w.*md$# containedin=NERDTreeFile
 	highlight NERDTreeFileMd          guibg=NONE guifg=#bcbcbc ctermbg=NONE ctermfg=250
 
+	syntax match NERDTreeFileRust     #\w.*rs$# containedin=NERDTreeFile
+	highlight NERDTreeFileRust        guibg=NONE guifg=#d7af87 ctermbg=NONE ctermfg=180
+
 	syntax match NERDTreeFileLicense  #LICENCE$# containedin=NERDTreeFile
 	syntax match NERDTreeFileLicense  #LICENSE$# containedin=NERDTreeFile
 	highlight NERDTreeFileLicense     guibg=NONE guifg=#8f8f8f ctermbg=NONE ctermfg=245

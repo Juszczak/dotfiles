@@ -127,6 +127,8 @@ MULTIHARDLINK         00              # regular file with more than one link
 .ml                   00;38;5;130     # ocaml
 .svg                  00;38;5;202     # scalable vector graphics
 .zip                  00;38;5;202     # zio archive
+.rs                   00;38;5;180     # rust
+.rlib                 03;38;5;180     # rust lib
 *LICENSE              00;38;5;245     # license
 *LICENCE              00;38;5;245     # license
 *yarn.lock            00;38;5;039     # yarn.lock
