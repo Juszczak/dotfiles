@@ -429,16 +429,18 @@ function! AirlineThemePatch(palette)
 	endif
 endfunction
 
-" chrome-like buffers switching
-nmap <d-1> <Plug>AirlineSelectTab1
-nmap <d-2> <Plug>AirlineSelectTab2
-nmap <d-3> <Plug>AirlineSelectTab3
-nmap <d-4> <Plug>AirlineSelectTab4
-nmap <d-5> <Plug>AirlineSelectTab5
-nmap <d-6> <Plug>AirlineSelectTab6
-nmap <d-7> <Plug>AirlineSelectTab7
-nmap <d-8> <Plug>AirlineSelectTab8
-nmap <d-9> <Plug>AirlineSelectTab9
+if has('gui_running')
+	" chrome-like buffers switching in gui
+	nmap <d-1> <Plug>AirlineSelectTab1
+	nmap <d-2> <Plug>AirlineSelectTab2
+	nmap <d-3> <Plug>AirlineSelectTab3
+	nmap <d-4> <Plug>AirlineSelectTab4
+	nmap <d-5> <Plug>AirlineSelectTab5
+	nmap <d-6> <Plug>AirlineSelectTab6
+	nmap <d-7> <Plug>AirlineSelectTab7
+	nmap <d-8> <Plug>AirlineSelectTab8
+	nmap <d-9> <Plug>AirlineSelectTab9
+endif
 
 " https://github.com/jaxbot/semantic-highlight.vim
 Plug 'jaxbot/semantic-highlight.vim'
