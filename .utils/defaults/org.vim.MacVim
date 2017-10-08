@@ -1,0 +1,37 @@
+{
+    MMAutosaveColumns = 159;
+    MMAutosaveRows = 45;
+    MMCurrentPreferencePane = Advanced;
+    MMLastWindowClosedBehavior = 2;
+    MMNativeFullScreen = 0;
+    MMNoTitleBarWindow = false;
+    MMOpenLayout = 1;
+    MMRenderer = 1;
+    MMTopLeftPoint = "{0, 800}";
+    MMTranslateCtrlClick = 0;
+    MMUntitledWindow = 0;
+    NSColorPanelMode = 6;
+    "NSColorPanelMode.modal" = 4;
+    "NSColorPanelToolbarIsShown.modal" = 1;
+    "NSColorPanelVisibleSwatchRows.modal" = 2;
+    NSColorPickerPreferredRGBEntryMode = 2;
+    NSFontPanelAttributes = "1, 4";
+    NSNavLastRootDirectory = "~";
+    NSNavPanelExpandedSizeForSaveMode = "{712, 448}";
+    NSQuotedKeystrokeBinding = "";
+    NSRepeatCountBinding = "";
+    "NSToolbar Configuration com.apple.NSColorPanel" =     {
+        "TB Is Shown" = 1;
+    };
+    "NSWindow Frame NSColorPanel" = "310 263 224 325 0 0 1280 778 ";
+    "NSWindow Frame NSColorPanel.modal" = "528 369 228 317 0 0 1280 778 ";
+    "NSWindow Frame NSFontPanel" = "517 301 445 237 0 0 1280 778 ";
+    "NSWindow Frame SUStatusFrame" = "440 487 400 129 0 0 1280 778 ";
+    "NSWindow Frame SUUpdateAlert" = "330 290 620 392 0 0 1280 778 ";
+    SUAutomaticallyUpdate = 1;
+    SUCheckAtStartup = 1;
+    SUEnableAutomaticChecks = 1;
+    SUHasLaunchedBefore = 1;
+    SULastCheckTime = "2017-10-06 17:10:42 +0000";
+    SUSendProfileInfo = 0;
+}
