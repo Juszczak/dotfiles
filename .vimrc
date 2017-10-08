@@ -261,15 +261,8 @@ Plug 'sheerun/vim-polyglot'
 let g:jsx_ext_required = 1
 let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
 
-" https://github.com/scrooloose/nerdcommenter
-" let g:mapleader="\<tab>"
-" let g:mapleader='g'
-Plug 'scrooloose/nerdcommenter'
-let g:NERDSpaceDelims = 1
-let g:NERDCompactSexyComs = 1
-let g:NERDDefaultAlign = 'left'
-let g:NERDCommentEmptyLines = 1
-let g:NERDTrimTrailingWhitespace = 1
+" https://github.com/tpope/vim-commentary
+Plug 'tpope/vim-commentary'
 
 " https://github.com/scrooloose/nerdtree
 Plug 'scrooloose/nerdtree'
