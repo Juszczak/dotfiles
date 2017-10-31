@@ -9,11 +9,14 @@ set hidden
 
 set modeline
 
-set showtabline=0
+set showtabline=2
 
-" set ttyfast
+set ttyfast
 
 set ttymouse=xterm2
+
+" show keystrokes
+set showcmd
 
 " character encoding
 set encoding=utf-8
@@ -213,7 +216,7 @@ function! s:Escape()
 	" MacVim issue
 	:silent nohlsearch
 	" :silent! !
-	let l:filetypes = ['typescript', 'javascript', 'python']
+	let l:filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart']
 	if (!empty(&filetype) && join(l:filetypes) =~ &filetype)
 		:SemanticHighlight
 	endif
@@ -266,8 +269,8 @@ Plug 'tpope/vim-commentary'
 
 " https://github.com/scrooloose/nerdtree
 Plug 'scrooloose/nerdtree'
-nmap <silent> <leader>tt :NERDTreeToggle<cr>
-nmap <silent> <leader>tf :NERDTreeFind<cr>
+nmap <silent> tt :NERDTreeToggle<cr>
+nmap <silent> tf :NERDTreeFind<cr>
 let g:NERDTreeIgnore = ['\.DS_Store$', '\Icon$', '\~$']
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeBookmarksSort = 0
@@ -331,6 +334,17 @@ let g:gitgutter_sign_removed = '·'
 let g:gitgutter_sign_removed_first_line = '·'
 let g:gitgutter_sign_modified_removed = '·'
 
+" https://github.com/natebosch/vim-lsc
+Plug 'natebosch/vim-lsc'
+let g:lsc_server_commands = {'dart': 'dart_language_server'}
+let g:lsc_enable_autocomplete = v:false
+let g:lsc_auto_map = {
+	\ 'GoToDefinition': '<C-]>',
+	\ 'FindReferences': 'gr',
+	\ 'ShowHover': 'tr',
+	\ 'Completion': 'omnifunc',
+	\}
+
 " https://github.com/Valloric/YouCompleteMe
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 let g:ycm_error_symbol = '!'
@@ -344,12 +358,16 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 
+let g:ycm_autoclose_preview_window_after_insertion = 1
+
+let g:ycm_rust_src_path = $RUST_SRC_PATH
+
 noremap <silent> <C-LeftMouse> :YcmCompleter GoToDefinition<cr>
 nnoremap <silent> <M-LeftMouse> :YcmCompleter GoToReferences<cr>
 
-nmap <silent> <leader>td :YcmCompleter GoToDefinition<cr>
-nmap <silent> <leader>tr :YcmCompleter GoToReferences<cr>
-nmap <silent> <leader>tg :YcmCompleter GetType<cr>
+nmap <silent> <C-]> :YcmCompleter GoToDefinition<cr>
+nmap <silent> gr :YcmCompleter GoToReferences<cr>
+nmap <silent> ty :YcmCompleter GetType<cr>
 
 " " https://github.com/ctrlpvim/ctrlp.vim
 Plug 'ctrlpvim/ctrlp.vim'
@@ -480,6 +498,9 @@ let g:ale_fixers = {
 	\ }
 let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 0
+" let g:ale_linters = {'rust': ['rustc']}
+
+let g:ale_dart_dartanalyzer_executable = '/usr/local/bin/dartanalyzer'
 
 " https://github.com/sbdchd/neoformat
 Plug 'sbdchd/neoformat'
@@ -497,12 +518,15 @@ Plug 'tpope/vim-surround'
 " https://github.com/tmhedberg/matchit
 Plug 'tmhedberg/matchit'
 
+" https://github.com/Valloric/MatchTagAlways
+Plug 'Valloric/MatchTagAlways'
+
 " https://github.com/kshenoy/vim-signature
 Plug 'kshenoy/vim-signature'
 let g:SignatureMarkTextHLDynamic = 1
 
 " " https://github.com/gorodinskiy/vim-coloresque
-" Plug 'gorodinskiy/vim-coloresque'
+Plug 'gorodinskiy/vim-coloresque'
 
 " https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'

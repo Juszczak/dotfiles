@@ -78,13 +78,12 @@ ORPHAN                05;38;5;124     # symlink to nonexistent file
 MISSING               00              # file orphant points to
 MULTIHARDLINK         00              # regular file with more than one link
 
-.ts                   00;38;5;033     # typescript
-.tsx                  00;38;5;026     # tsx
-.spec.ts              00;38;5;098     # specs
+.ts                   00;38;5;030     # typescript
+.tsx                  00;38;5;030     # tsx
 .styl                 00;38;5;083     # stylus
 .js                   00;38;5;227     # javascript
 .jsx                  00;38;5;081     # jsx
-.dart                 00;38;5;048     # dart
+.dart                 00;38;5;037     # dart
 .coffee               00;38;5;214     # coffeescript
 .json                 00;38;5;071     # json
 *tern-config          00;38;5;071     # tern config file
@@ -115,9 +114,10 @@ MULTIHARDLINK         00              # regular file with more than one link
 .elm                  00;38;5;087     # elm
 .cpp                  00;38;5;069     # c++
 .cc                   00;38;5;069     # c++
-.ipp                  00;38;5;068     # c++ interfaces
-.h                    00;38;5;067     # c++ headers
 .hpp                  00;38;5;067     # c++ headers
+.ipp                  00;38;5;068     # c++ interfaces
+.c                    00;38;5;059     # c
+.h                    00;38;5;059     # c headers
 .java                 00;38;5;009     # java
 .php                  00;38;5;104     # php
 .erl                  00;38;5;197     # erlang

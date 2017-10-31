@@ -89,7 +89,7 @@ highlight DiffDelete   guibg=#400000 guifg=#400000               ctermbg=124  ct
 highlight DiffChange   guibg=#404000                             ctermbg=058
 
 " spelling
-highlight spellBad     guisp=#fcaf3e gui=underline
+highlight spellBad     guisp=#f54d27 gui=underline
 highlight spellCap     guisp=#73d216 gui=underline
 highlight spellRare    guisp=#fcaf3e gui=underline
 highlight spellLocal   guisp=#729fcf gui=underline
@@ -105,6 +105,9 @@ highlight SyntasticWarningSign guibg=NONE    guifg=#cdd129                    ct
 " ale
 highlight  ALEErrorSign        guibg=NONE    guifg=#f54d27                    ctermbg=NONE ctermfg=166
 highlight  ALEWarningSign      guibg=NONE    guifg=#cdd129                    ctermbg=NONE ctermfg=184
+
+" lsc
+highlight link lscDiagnosticError SpellBad
 
 " signature
 highlight SignatureMarkText  guibg=NONE    guifg=#444444 gui=italic           cterm=italic
@@ -136,11 +139,17 @@ highlight NERDTreeGitStatusIgnored              guifg=#808080 gui=italic ctermfg
 
 " nerdtree filetypes
 function! s:setNERDTreeFileTypesColors()
+	highlight clear NERDTreeExecFile
+
 	syntax match NERDTreeFileJs       #\w.*js$# containedin=NERDTreeFile,NERDTreeExecFile
 	highlight NERDTreeFileJs          guibg=NONE guifg=#f1e05a ctermbg=NONE ctermfg=221
 
 	syntax match NERDTreeFileTs       #\w.*ts$# containedin=NERDTreeFile,NERDTreeExecFile
+	syntax match NERDTreeFileTs       #\w.*tsx$# containedin=NERDTreeFile,NERDTreeExecFile
 	highlight NERDTreeFileTs          guibg=NONE guifg=#2b7489 ctermbg=NONE ctermfg=030
+
+	syntax match NERDTreeFileDart     #\w.*dart$# containedin=NERDTreeFile,NERDTreeExecFile
+	highlight NERDTreeFileDart        guibg=NONE guifg=#00B4AB ctermbg=NONE ctermfg=037 gui=NONE cterm=NONE
 
 	syntax match NERDTreeFilePython   #\w.*py$# containedin=NERDTreeFile,NERDTreeExecFile
 	highlight NERDTreeFilePython      guibg=NONE guifg=#3572A5 ctermbg=NONE ctermfg=061
@@ -159,6 +168,12 @@ function! s:setNERDTreeFileTypesColors()
 
 	syntax match NERDTreeFileScss     #\w.*scss$# containedin=NERDTreeFile
 	highlight NERDTreeFileScss        guibg=NONE guifg=#c6538c ctermbg=NONE ctermfg=128
+
+	syntax match NERDTreeFileC        #\w.*\.c$# containedin=NERDTreeFile
+	highlight NERDTreeFileC           guibg=NONE guifg=#555555 ctermbg=NONE ctermfg=59
+
+	syntax match NERDTreeFileCheader  #\w.*\.h$# containedin=NERDTreeFile
+	highlight NERDTreeFileCheader     guibg=NONE guifg=#555555 gui=italic ctermbg=NONE ctermfg=59 cterm=italic
 
 	syntax match NERDTreeFileYml      #\w.*yml$# containedin=NERDTreeFile
 	syntax match NERDTreeFileYml      #\w.*yaml$# containedin=NERDTreeFile
