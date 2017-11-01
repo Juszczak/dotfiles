@@ -48,6 +48,7 @@ function __pip_install {
 function __gem_install {
   local -a gems=(
     "rubocop"
+    "kindle"
   )
 
   for gem in "${gems[@]}"; do
@@ -62,6 +63,8 @@ function __brew_install {
     "bash-completion"
     "cmake"
     "editorconfig"
+    "exa"
+    "fpp"
     "git"
     "gnutls"
     "htop"
@@ -70,13 +73,14 @@ function __brew_install {
     "perl"
     "python"
     "reattach-to-user-namespace"
+    "ripgrep"
     "ruby"
     "rust"
     "shellcheck"
     "tidy-html5"
     "tmux"
     "tree"
-    "tree"
+    "vifm"
     "w3m"
     "wget"
   )
