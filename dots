@@ -1,20 +1,29 @@
 #!/usr/bin/env bash
 
 shopt -s nullglob
-declare -a ignored=("." ".." "README.md" ".git" ".bash")
-declare -a files=(.*)
+declare -a ignored=("." ".." "README.md" ".git" "dots")
 declare -al commands=("sync" "install" "link" "backup" "clean")
 
-function __copy_dotfile_to_home { echo "/usr/bin/rsync -a $PWD/$1 $HOME"; }
-function __copy_dotfile_from_home { echo "/usr/bin/rsync -a $HOME/$1 $PWD/$1"; }
-function __symlink_dotfile_to_home { echo "/bin/ln -s $PWD/$1 $HOME/$1"; }
-function __create_backup_dotfile { echo "/bin/mv $HOME/$1 $HOME/$1.bak"; }
-function __remove_backup_dotfile { echo "/bin/rm -r $HOME/$1.bak"; }
-function __sync_existing_dotfile { "/usr/bin/rsync" "-a" "$HOME/$1" "$PWD/"; }
+if [ -z "$DOTS_DIR" ]; then
+  if [ -e "$(pwd)/dots" ]; then
+    declare DOTS_DIR="$(pwd)"
+  else
+    echo "Install 'dots' using $(dirname $0)/install script"
+    exit
+  fi
+fi
+
+declare -a files=($DOTS_DIR/.*)
+
+function __copy_dotfile_to_home { "/usr/bin/rsync" "-a" "$DOTS_DIR/$(basename $1)" "$HOME"; }
+function __symlink_dotfile_to_home { "/bin/ln" "-s" "$DOTS_DIR/$(basename $1)" "$HOME/$(basename $1)"; }
+function __create_backup_dotfile { mv "$HOME/$(basename $1)" "$HOME/$(basename $1).bak"; }
+function __remove_backup_dotfile { "/bin/rm" "-r" "$HOME/$(basename $1).bak"; }
+function __sync_existing_dotfile { "/usr/bin/rsync" "-a" "$HOME/$(basename $1)" "$DOTS_DIR/"; }
 
 function __loop {
   for file in "${files[@]}"; do
-    if ! [[ ${ignored[*]} =~ $file ]]; then
+    if ! [[ ${ignored[*]} =~ $(basename $file) ]]; then
       $1 "$file"
     fi
   done
@@ -44,6 +53,8 @@ if ! [[ ${commands[*]} =~ $1 ]]; then
     link     symlink dotfiles from this repository into $HOME
     backup   create backup files for all dotfiles in $HOME
     clean    remove backup files in $HOME
+
+  dots are located in $DOTS_DIR
 "
 fi
 

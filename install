@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+function __link_dots_bin {
+  ln -s "$PWD/dots" "$HOME/.bin/dots"
+}
+
+function __set_dots_dir {
+  if [ -z "$DOTS_DIR" ]; then
+    if ! grep -q "DOTS_DIR" "$HOME/.bash_profile"; then
+      echo 'export PATH=$HOME/.bin:$PATH' >> "$HOME/.bash_profile"
+      echo "export DOTS_DIR=\"`dirname "$(readlink $HOME/.bin/dots)"`\"" >> "$HOME/.bash_profile"
+      echo "'dots' Installed. Open new Terminal window to use 'dots'"
+    else
+      echo "Open new Terminal window to use 'dots'"
+    fi
+  else
+    echo "'dots' already installed"
+    dots
+  fi
+}
+
+if [ ! -e "$HOME/.bin/dots" ]; then
+  __link_dots_bin;
+  __set_dots_dir
+else
+  echo "$HOME/.bin/dots already exists"
+  __set_dots_dir
+fi
