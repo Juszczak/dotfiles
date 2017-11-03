@@ -155,7 +155,7 @@ set breakindent
 
 set fillchars+=vert:⎸
 
-set noshowmode
+set showmode
 
 " remove comment leader when joining lines
 set formatoptions+=j
@@ -212,12 +212,11 @@ function! ToggleHome()
 endfunction
 nnoremap <silent> 0 :call ToggleHome()<cr>
 
+let g:semantic_highlight_filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart']
 function! s:Escape()
 	" MacVim issue
 	:silent nohlsearch
-	" :silent! !
-	let l:filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart']
-	if (!empty(&filetype) && join(l:filetypes) =~ &filetype)
+	if (!empty(&filetype) && join(g:semantic_highlight_filetypes) =~ &filetype)
 		:SemanticHighlight
 	endif
 endfunction
@@ -241,19 +240,19 @@ endfunction
 
 " events
 
-if has('gui')
+if has('gui_running')
 	augroup CurrentWindow
 		autocmd!
 		autocmd VimEnter,WinEnter,BufWinEnter * call s:WindowEnter()
 		autocmd WinLeave * call s:WindowLeave()
 	augroup END
-
-	augroup SemanticHighlightFiletypeEvents
-		autocmd!
-		autocmd FileType * :call s:Escape()
-		autocmd InsertLeave * :call s:Escape()
-	augroup END
 endif
+
+augroup SemanticHighlightFiletypeEvents
+	autocmd!
+	autocmd FileType * :call s:Escape()
+	autocmd InsertLeave,InsertEnter * :call s:Escape()
+augroup END
 
 " plugins
 call plug#begin('~/.vim/plugged')
@@ -362,12 +361,22 @@ let g:ycm_autoclose_preview_window_after_insertion = 1
 
 let g:ycm_rust_src_path = $RUST_SRC_PATH
 
-noremap <silent> <C-LeftMouse> :YcmCompleter GoToDefinition<cr>
-nnoremap <silent> <M-LeftMouse> :YcmCompleter GoToReferences<cr>
+let g:ycm_mappings_filetypes = ['typescript', 'javascript', 'python', 'rust', 'go']
+function! MapYcmCompleter()
+	if (!empty(&filetype) && join(g:ycm_mappings_filetypes) =~ &filetype)
+		noremap <buffer> <silent> <C-LeftMouse> :YcmCompleter GoToDefinition<cr>
+		nnoremap <buffer> <silent> <M-LeftMouse> :YcmCompleter GoToReferences<cr>
 
-nmap <silent> <C-]> :YcmCompleter GoToDefinition<cr>
-nmap <silent> gr :YcmCompleter GoToReferences<cr>
-nmap <silent> ty :YcmCompleter GetType<cr>
+		nmap <buffer> <silent> <C-]> :YcmCompleter GoToDefinition<cr>
+		nmap <buffer> <silent> gr :YcmCompleter GoToReferences<cr>
+		nmap <buffer> <silent> ty :YcmCompleter GetType<cr>
+	endif
+endfunction
+
+augroup MapYcmCompleter
+	autocmd!
+	autocmd VimEnter,WinEnter,BufWinEnter * call MapYcmCompleter()
+augroup END
 
 " " https://github.com/ctrlpvim/ctrlp.vim
 Plug 'ctrlpvim/ctrlp.vim'
