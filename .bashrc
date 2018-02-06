@@ -9,13 +9,13 @@ function __source {
 
 function __load_scripts {
   local -a filenames=(
+    "path"
     "aliases"
     "core"
+    "exports"
     "dependencies"
     "dircolors"
     "env"
-    "exports"
-    "path"
     "prompt"
   )
   for file in "${filenames[@]}"

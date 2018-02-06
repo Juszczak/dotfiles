@@ -1,7 +1,6 @@
 [user]
 	name = ***REMOVED***
 	email = ***REMOVED***
-	signingkey = ***REMOVED***
 
 [core]
 	editor = reattach-to-user-namespace vim
@@ -64,7 +63,13 @@
 	default = current
 
 [commit]
-	gpgsign = true
+	gpgSign = true
+
+[gpg]
+	program = /usr/local/bin/krgpg
+
+[tag]
+	forceSignAnnotated = true
 
 [filter "lfs"]
 	clean = git-lfs clean -- %f

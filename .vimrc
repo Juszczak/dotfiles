@@ -25,6 +25,12 @@ scriptencoding utf-8
 " read files changed outside of Vim
 set autoread
 
+" open splits on the right side
+set splitright
+
+" 2 lines of cmd
+set cmdheight=2
+
 " disable annoying ~ files…
 set nobackup
 set nowritebackup
@@ -212,7 +218,7 @@ function! ToggleHome()
 endfunction
 nnoremap <silent> 0 :call ToggleHome()<cr>
 
-let g:semantic_highlight_filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart']
+let g:semantic_highlight_filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart', 'go', 'erlang']
 function! s:Escape()
 	" MacVim issue
 	:silent nohlsearch
@@ -220,6 +226,18 @@ function! s:Escape()
 		:SemanticHighlight
 	endif
 endfunction
+
+let g:format_on_save_filetypes = ['dart', 'go']
+function! Format()
+	if (!empty(&filetype) && join(g:format_on_save_filetypes) =~ &filetype)
+		Neoformat
+	endif
+endfunction
+
+" augroup fmt
+"   autocmd!
+"   autocmd BufWritePre * undojoin | call Format()
+" augroup END
 
 function! s:WindowEnter()
 	if &number
@@ -290,6 +308,11 @@ let g:NERDTreeSortOrder = [
 	\ '\spec.ts$',
 	\ '\.ts$',
 	\ '\.coffee$',
+	\ '\module.js$',
+	\ '\component.js$',
+	\ '\controller.js$',
+	\ '\routing.js$',
+	\ '\service.js$',
 	\ '\.js$',
 	\ '\.jsx$',
 	\ '\.json$',
@@ -340,7 +363,7 @@ let g:lsc_enable_autocomplete = v:false
 let g:lsc_auto_map = {
 	\ 'GoToDefinition': '<C-]>',
 	\ 'FindReferences': 'gr',
-	\ 'ShowHover': 'tr',
+	\ 'ShowHover': 'ty',
 	\ 'Completion': 'omnifunc',
 	\}
 
@@ -378,7 +401,19 @@ augroup MapYcmCompleter
 	autocmd VimEnter,WinEnter,BufWinEnter * call MapYcmCompleter()
 augroup END
 
-" " https://github.com/ctrlpvim/ctrlp.vim
+" https://github.com/dansomething/vim-eclim
+" Plug 'dansomething/vim-eclim'
+" let g:EclimCompletionMethod = 'omnifunc'
+
+" https://github.com/FrigoEU/psc-ide-vim
+Plug 'FrigoEU/psc-ide-vim'
+" let g:polyglot_disabled = ['purescript']
+let g:psc_ide_syntastic_mode = 1
+
+" https://github.com/ElmCast/elm-vim
+Plug 'ElmCast/elm-vim'
+
+" https://github.com/ctrlpvim/ctrlp.vim
 Plug 'ctrlpvim/ctrlp.vim'
 nmap <leader>cc :CtrlPClearAllCaches<cr>
 let g:ctrlp_working_path_mode = 'ra'
@@ -507,13 +542,25 @@ let g:ale_fixers = {
 	\ }
 let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 0
-" let g:ale_linters = {'rust': ['rustc']}
 
 let g:ale_dart_dartanalyzer_executable = '/usr/local/bin/dartanalyzer'
+
+let g:ale_linters = {
+	\'rust': ['rustc'],
+\ }
+	" \'html': [],
+
+" https://github.com/vim-erlang/vim-erlang-runtime
+Plug 'vim-erlang/vim-erlang-runtime'
+let g:polyglot_disabled = ['erlang']
+
+" https://github.com/vim-erlang/vim-erlang-omnicomplete
+Plug 'vim-erlang/vim-erlang-omnicomplete'
 
 " https://github.com/sbdchd/neoformat
 Plug 'sbdchd/neoformat'
 nmap <leader>f :Neoformat<cr>
+let g:neoformat_enabled_typescript = ['prettier']
 
 " https://github.com/alvan/vim-closetag
 Plug 'alvan/vim-closetag'
@@ -549,3 +596,11 @@ call plug#end()
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+
+command! IndentErl call IndentErlangWithEmacs()
+
+function! IndentErlangWithEmacs()
+	exec '!emacs --eval "(progn (find-file \"' . expand('%:p') . '\")' .
+		\ '(erlang-indent-current-buffer) (save-buffer) '.
+		\ '(save-buffers-kill-emacs))"'
+endfunction

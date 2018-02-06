@@ -14,3 +14,6 @@ export PATH="/usr/local/opt/flutter/sdk/bin:$PATH"
 
 # Dart pub cache
 export PATH="$HOME/.pub-cache/bin:$PATH"
+
+# GNU Make
+export PATH="/usr/local/opt/make/libexec/gnubin:$PATH"

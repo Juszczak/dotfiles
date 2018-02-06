@@ -149,16 +149,23 @@ function! s:setNERDTreeFileTypesColors()
 	highlight NERDTreeFileTs          guibg=NONE guifg=#2b7489 ctermbg=NONE ctermfg=030
 
 	syntax match NERDTreeFileDart     #\w.*dart$# containedin=NERDTreeFile,NERDTreeExecFile
-	highlight NERDTreeFileDart        guibg=NONE guifg=#00B4AB ctermbg=NONE ctermfg=037 gui=NONE cterm=NONE
+	highlight NERDTreeFileDart        guibg=NONE guifg=#00b4ab ctermbg=NONE ctermfg=037 gui=NONE cterm=NONE
 
 	syntax match NERDTreeFilePython   #\w.*py$# containedin=NERDTreeFile,NERDTreeExecFile
-	highlight NERDTreeFilePython      guibg=NONE guifg=#3572A5 ctermbg=NONE ctermfg=061
+	highlight NERDTreeFilePython      guibg=NONE guifg=#3572a5 ctermbg=NONE ctermfg=061
 
+	syntax match NERDTreeFileGo       #\w.*go$# containedin=NERDTreeFile,NERDTreeExecFile
+	highlight NERDTreeFileGo          guibg=NONE guifg=#375eab ctermbg=NONE ctermfg=061
+
+	syntax match NERDTreeFileJson     #\w.*arb$# containedin=NERDTreeFile
 	syntax match NERDTreeFileJson     #\w.*json$# containedin=NERDTreeFile
 	highlight NERDTreeFileJson        guibg=NONE guifg=#5faf5f ctermbg=NONE ctermfg=071
 
 	syntax match NERDTreeFileHtml     #\w.*html$# containedin=NERDTreeFile
 	highlight NERDTreeFileHtml        guibg=NONE guifg=#ff8700 ctermbg=NONE ctermfg=208
+
+	syntax match NERDTreeFileXml      #\w.*xml$# containedin=NERDTreeFile
+	highlight NERDTreeFileXml         guibg=NONE guifg=#e34f26 ctermbg=NONE ctermfg=166
 
 	syntax match NERDTreeFileStylus   #\w.*styl$# containedin=NERDTreeFile
 	highlight NERDTreeFileStylus      guibg=NONE guifg=#5fff5f ctermbg=NONE ctermfg=083
@@ -169,15 +176,39 @@ function! s:setNERDTreeFileTypesColors()
 	syntax match NERDTreeFileScss     #\w.*scss$# containedin=NERDTreeFile
 	highlight NERDTreeFileScss        guibg=NONE guifg=#c6538c ctermbg=NONE ctermfg=128
 
+	syntax match NERDTreeFileElm      #\w.*elm$# containedin=NERDTreeFile
+	highlight NERDTreeFileElm         guibg=NONE guifg=#60B5CC ctermbg=NONE ctermfg=74
+
 	syntax match NERDTreeFileC        #\w.*\.c$# containedin=NERDTreeFile
 	highlight NERDTreeFileC           guibg=NONE guifg=#555555 ctermbg=NONE ctermfg=59
+
+	syntax match NERDTreeFilePhp      #\w.*\.php$# containedin=NERDTreeFile
+	highlight NERDTreeFilePhp         guibg=NONE guifg=#4F5D95 ctermbg=NONE ctermfg=60
 
 	syntax match NERDTreeFileCheader  #\w.*\.h$# containedin=NERDTreeFile
 	highlight NERDTreeFileCheader     guibg=NONE guifg=#555555 gui=italic ctermbg=NONE ctermfg=59 cterm=italic
 
+	syntax match NERDTreeFileYml      #pubspec.lock$# containedin=NERDTreeFile
 	syntax match NERDTreeFileYml      #\w.*yml$# containedin=NERDTreeFile
 	syntax match NERDTreeFileYml      #\w.*yaml$# containedin=NERDTreeFile
 	highlight NERDTreeFileYml         guibg=NONE guifg=#5faf5f ctermbg=NONE ctermfg=071
+
+	syntax match NERDTreeFileAndroid  #\w.*gradle$# containedin=NERDTreeFile
+	syntax match NERDTreeFileAndroid  #\w.*iml$# containedin=NERDTreeFile
+	highlight NERDTreeFileAndroid     guibg=NONE guifg=#a4c639 ctermbg=NONE ctermfg=149
+
+	syntax match NERDTreeFileApple    #\w.*plist$# containedin=NERDTreeFile
+	syntax match NERDTreeFileApple    #\w.*xcsettings$# containedin=NERDTreeFile
+	syntax match NERDTreeFileApple    #\w.*pbxproj$# containedin=NERDTreeFile
+	highlight NERDTreeFileApple       guibg=NONE guifg=#5fc9f8 ctermbg=NONE ctermfg=081
+
+	syntax match NERDTreeFileSwift    #\w.*Cartfile$# containedin=NERDTreeFile
+	syntax match NERDTreeFileSwift    #\w.*Cartfile.resolved$# containedin=NERDTreeFile
+	syntax match NERDTreeFileSwift    #\w.*swift$# containedin=NERDTreeFile
+	highlight NERDTreeFileSwift       guibg=NONE guifg=#ffac45 ctermbg=NONE ctermfg=215
+
+	syntax match NERDTreeFileBatch    #\w.*bat$# containedin=NERDTreeFile
+	highlight NERDTreeFileBatch       guibg=NONE guifg=#c1f12e ctermbg=NONE ctermfg=145
 
 	syntax match NERDTreeFileMd       #\w.*markdown$# containedin=NERDTreeFile
 	syntax match NERDTreeFileMd       #\w.*md$# containedin=NERDTreeFile
@@ -185,6 +216,13 @@ function! s:setNERDTreeFileTypesColors()
 
 	syntax match NERDTreeFileRust     #\w.*rs$# containedin=NERDTreeFile
 	highlight NERDTreeFileRust        guibg=NONE guifg=#d7af87 ctermbg=NONE ctermfg=180
+
+	syntax match NERDTreeFileJava     #\w.*java$# containedin=NERDTreeFile
+	syntax match NERDTreeFileJava     #\w.*properties$# containedin=NERDTreeFile
+	highlight NERDTreeFileJava        guibg=NONE guifg=#b07219 ctermbg=NONE ctermfg=130
+
+	syntax match NERDTreeFileErlang   #\w.*erl$# containedin=NERDTreeFile
+	highlight NERDTreeFileErlang      guibg=NONE guifg=#B83998 ctermbg=NONE ctermfg=132
 
 	syntax match NERDTreeFileLicense  #LICENCE$# containedin=NERDTreeFile
 	syntax match NERDTreeFileLicense  #LICENSE$# containedin=NERDTreeFile

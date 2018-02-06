@@ -16,6 +16,7 @@ endif
 
 setlocal iskeyword+=$
 setlocal iskeyword+=@
+setlocal iskeyword-=.
 
 syntax sync fromstart
 

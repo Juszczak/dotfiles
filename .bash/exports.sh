@@ -31,5 +31,8 @@ export MANPAGER='less -X';
 # Set up custom python interactive shell prompt
 export PYTHONSTARTUP="$HOME/.python/startup.py"
 
+# GPG TTY by Krypton
+export GPG_TTY=$(tty)
+
 # Rust sources path
 export RUST_SRC_PATH="$HOME/.rustup/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
