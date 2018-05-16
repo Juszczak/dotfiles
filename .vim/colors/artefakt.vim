@@ -161,6 +161,9 @@ function! s:setNERDTreeFileTypesColors()
 	syntax match NERDTreeFileJson     #\w.*json$# containedin=NERDTreeFile
 	highlight NERDTreeFileJson        guibg=NONE guifg=#5faf5f ctermbg=NONE ctermfg=071
 
+	syntax match NERDTreeFileEjs      #\w.*ejs$# containedin=NERDTreeFile
+	highlight NERDTreeFileEjs        guibg=NONE guifg=#afff00 ctermbg=NONE ctermfg=154
+
 	syntax match NERDTreeFileHtml     #\w.*html$# containedin=NERDTreeFile
 	highlight NERDTreeFileHtml        guibg=NONE guifg=#ff8700 ctermbg=NONE ctermfg=208
 
@@ -174,7 +177,7 @@ function! s:setNERDTreeFileTypesColors()
 	highlight NERDTreeFileCss         guibg=NONE guifg=#563d7c ctermbg=NONE ctermfg=060
 
 	syntax match NERDTreeFileScss     #\w.*scss$# containedin=NERDTreeFile
-	highlight NERDTreeFileScss        guibg=NONE guifg=#c6538c ctermbg=NONE ctermfg=128
+	highlight NERDTreeFileScss        guibg=NONE guifg=#af00d7 ctermbg=NONE ctermfg=128
 
 	syntax match NERDTreeFileElm      #\w.*elm$# containedin=NERDTreeFile
 	highlight NERDTreeFileElm         guibg=NONE guifg=#60B5CC ctermbg=NONE ctermfg=74

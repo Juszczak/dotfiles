@@ -10,17 +10,6 @@ function __wrapper {
 
 function __ps1 {
   local prefix empty_prefix joiner is_prompt_empty=1
-  prefix="${user_bg}${user_fg}${user_bg}${space}"
-  joiner="${user_fg}${user_bg}${space}"
-
-  empty_prefix="${user_fg}${user_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
-
-  __wrapper "$USER" "$prefix" "$space" && {
-    prefix="$joiner";
-    is_prompt_empty=0;
-  }
-
   prefix="${branch_bg}${branch_fg}${branch_bg}${space}"
   joiner="${branch_fg}${branch_bg}${space}"
   empty_prefix="${branch_fg}${branch_bg}${space}"
@@ -46,19 +35,7 @@ function __ps1 {
 }
 
 function __ps1_short {
-  local prefix empty_prefix joiner is_prompt_empty=1
-  prefix="${user_bg}${user_fg}${user_bg}${space}"
-  joiner="${user_fg}${user_bg}${space}"
-
-  empty_prefix="${user_fg}${user_bg}${space}"
-  [ $is_prompt_empty -eq 1 ] && prefix="$empty_prefix"
-
-  __wrapper "$" "$prefix" "$space" && {
-    prefix="$joiner";
-    is_prompt_empty=0;
-  }
-
-  printf "%s" "${reset_bg}$reset$space"
+  printf " "
 }
 
 function __ps2 {
@@ -163,3 +140,11 @@ function __prompt {
 if [[ ! "$PROMPT_COMMAND" == *__prompt* ]]; then
   PROMPT_COMMAND='__prompt;'$'\n'"$PROMPT_COMMAND"
 fi
+
+function pt {
+  if [[ "PS1_SHORT" -eq 1 ]]; then
+    export PS1_SHORT=0
+  else
+    export PS1_SHORT=1
+  fi
+}

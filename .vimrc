@@ -29,7 +29,7 @@ set autoread
 set splitright
 
 " 2 lines of cmd
-set cmdheight=2
+set cmdheight=1
 
 " disable annoying ~ files…
 set nobackup
@@ -141,12 +141,10 @@ set titlestring=%f title
 set sidescroll=2
 
 " lines from screen edge
-set scrolloff=4
+" set scrolloff=4
 
 " columns from scren edge
-set sidescrolloff=4
-
-set nowrap
+" set sidescrolloff=4
 
 " line numbers
 set number
@@ -284,6 +282,9 @@ let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\
 " https://github.com/tpope/vim-commentary
 Plug 'tpope/vim-commentary'
 
+" https://github.com/itchyny/vim-cursorword
+Plug 'itchyny/vim-cursorword'
+
 " https://github.com/scrooloose/nerdtree
 Plug 'scrooloose/nerdtree'
 nmap <silent> tt :NERDTreeToggle<cr>
@@ -307,6 +308,7 @@ let g:NERDTreeSortOrder = [
 	\ '\routing.ts$',
 	\ '\spec.ts$',
 	\ '\.ts$',
+	\ '\.tsx$',
 	\ '\.coffee$',
 	\ '\module.js$',
 	\ '\component.js$',
@@ -367,7 +369,7 @@ let g:lsc_auto_map = {
 	\ 'Completion': 'omnifunc',
 	\}
 
-" https://github.com/Valloric/YouCompleteMe
+" https://github.com/Valloric/YouCompleteMe {
 Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
 let g:ycm_error_symbol = '!'
 let g:ycm_warning_symbol = '△'
@@ -400,10 +402,7 @@ augroup MapYcmCompleter
 	autocmd!
 	autocmd VimEnter,WinEnter,BufWinEnter * call MapYcmCompleter()
 augroup END
-
-" https://github.com/dansomething/vim-eclim
-" Plug 'dansomething/vim-eclim'
-" let g:EclimCompletionMethod = 'omnifunc'
+" end YouCompleteMe }
 
 " https://github.com/FrigoEU/psc-ide-vim
 Plug 'FrigoEU/psc-ide-vim'
@@ -539,6 +538,7 @@ nmap <silent> [a <Plug>(ale_previous_wrap)
 nmap <silent> ]a <Plug>(ale_next_wrap)
 let g:ale_fixers = {
 	\ 'typescript': ['tslint'],
+	\ 'javascript': ['prettier']
 	\ }
 let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 0
@@ -561,6 +561,8 @@ Plug 'vim-erlang/vim-erlang-omnicomplete'
 Plug 'sbdchd/neoformat'
 nmap <leader>f :Neoformat<cr>
 let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_javascript = ['prettier']
+" let g:neoformat_enabled_stylus = ['prettier']
 
 " https://github.com/alvan/vim-closetag
 Plug 'alvan/vim-closetag'
@@ -581,8 +583,8 @@ Plug 'Valloric/MatchTagAlways'
 Plug 'kshenoy/vim-signature'
 let g:SignatureMarkTextHLDynamic = 1
 
-" " https://github.com/gorodinskiy/vim-coloresque
-Plug 'gorodinskiy/vim-coloresque'
+" https://github.com/ap/vim-css-color
+Plug 'ap/vim-css-color'
 
 " https://github.com/mbbill/undotree
 Plug 'mbbill/undotree'

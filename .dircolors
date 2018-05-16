@@ -94,7 +94,7 @@ MULTIHARDLINK         00              # regular file with more than one link
 .html                 00;38;5;208     # html
 .pug                  00;38;5;166     # pug
 .ejs                  00;38;5;154     # ejs
-.css                  00;38;5;032     # css
+.css                  00;38;5;062     # css
 .less                 00;38;5;032     # less
 .scss                 00;38;5;128     # scss
 .sass                 00;38;5;128     # sass
