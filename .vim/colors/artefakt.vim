@@ -22,7 +22,7 @@ endif
 
 highlight Cursor       guibg=NONE    guifg=NONE    gui=reverse   ctermbg=NONE ctermfg=NONE cterm=reverse
 
-highlight CursorLine   guibg=#2d2d2d guifg=NONE    gui=NONE      ctermbg=236  ctermfg=NONE cterm=NONE
+highlight CursorLine   guibg=#2d2d2d               gui=NONE      ctermbg=236  ctermfg=NONE cterm=NONE
 highlight CursorLineNR guibg=#2d2d2d guifg=#f5f5f5 gui=bold      ctermbg=236  ctermfg=255  cterm=bold
 
 highlight clear SignColumn
@@ -31,6 +31,7 @@ highlight ColorColumn  guibg=#303030 guifg=NONE    gui=NONE      ctermbg=237  ct
 
 highlight StatusLine   guibg=#242424 guifg=#808080 gui=NONE      ctermbg=238  ctermfg=239  cterm=NONE
 highlight StatusLineNC guibg=#242424 guifg=#555555 gui=NONE      ctermbg=238  ctermfg=239  cterm=NONE
+highlight WildMenu     guibg=#555555 guifg=#f5f5f5
 
 highlight Conceal      guibg=#f5f5f5 guifg=#3a3a3a gui=NONE      ctermbg=NONE ctermfg=237  cterm=NONE
 highlight SpecialKey   guibg=NONE    guifg=#3a3a3a gui=NONE      ctermbg=NONE ctermfg=237  cterm=NONE
@@ -43,7 +44,7 @@ highlight Visual       guibg=#444444 guifg=NONE    gui=NONE      ctermbg=238  ct
 highlight LineNr       guibg=NONE guifg=#808080    gui=NONE      ctermbg=NONE  ctermfg=239  cterm=NONE
 
 highlight Comment      guibg=NONE    guifg=#808080 gui=italic    ctermbg=NONE ctermfg=244  cterm=italic
-highlight NonText      guibg=NONE    guifg=#808080 gui=NONE
+highlight NonText      guibg=NONE    guifg=#3a3a3a gui=NONE
 
 highlight Directory    guibg=NONE    guifg=#a8a8a8 gui=bold      ctermbg=NONE ctermfg=248  cterm=bold
 
@@ -150,6 +151,9 @@ function! s:setNERDTreeFileTypesColors()
 
 	syntax match NERDTreeFileDart     #\w.*dart$# containedin=NERDTreeFile,NERDTreeExecFile
 	highlight NERDTreeFileDart        guibg=NONE guifg=#00b4ab ctermbg=NONE ctermfg=037 gui=NONE cterm=NONE
+
+	syntax match NERDTreeFileSol      #\w.*sol$# containedin=NERDTreeFile,NERDTreeExecFile
+	highlight NERDTreeFileSol         guibg=NONE guifg=#aa6746 ctermbg=NONE ctermfg=131 gui=NONE cterm=NONE
 
 	syntax match NERDTreeFilePython   #\w.*py$# containedin=NERDTreeFile,NERDTreeExecFile
 	highlight NERDTreeFilePython      guibg=NONE guifg=#3572a5 ctermbg=NONE ctermfg=061
