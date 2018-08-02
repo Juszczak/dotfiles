@@ -4,26 +4,26 @@
 
 [core]
 	editor = reattach-to-user-namespace vim
-	pager = less -x2
+	pager = less -x2R
 	excludesfile = ~/.gitignore
 
 ; shortcuts
-[alias]
-	br = branch
-	bv = branch -vv
-	merge = merge -S -s
-	ca = commit --amend --no-edit -S -s
-	ch = checkout
-	cm = commit -S -s
-	dc = diff --cached
-	df = diff
-	dt = difftool
-	lgp = log -p
-	mt = mergetool
-	st = status
-	stat = diff --stat
-	sts = status -s -b
-	who = shortlog -s --
+; [alias]
+; 	br = branch
+; 	bv = branch -vv
+; 	merge = merge -S -s
+; 	ca = commit --amend --no-edit -S -s
+; 	ch = checkout
+; 	cm = commit -S -s
+; 	dc = diff --cached
+; 	df = diff
+; 	dt = difftool
+; 	lgp = log -p
+; 	mt = mergetool
+; 	st = status
+; 	stat = diff --stat
+; 	sts = status -s -b
+; 	who = shortlog -s --
 
 ; list last used branches
 [alias]
@@ -43,11 +43,12 @@
 	wc = log ORIG_HEAD.. --stat --no-merges
 
 ; whats new
-[alias]
-	yd = diff "@{yesterday}"
+; [alias]
+; 	yd = diff "@{yesterday}"
 
 [color]
 	ui = auto
+	; ui = always
 
 [credential]
 	helper = osxkeychain

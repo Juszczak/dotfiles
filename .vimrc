@@ -4,7 +4,7 @@ scriptencoding utf-8
 set encoding=utf-8
 set hidden
 set modeline
-set cmdheight=2
+set cmdheight=1
 set showtabline=2
 set wildmenu
 set ttyfast
@@ -235,12 +235,8 @@ let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
 
 Plug 'vim-airline/vim-airline' " https://github.com/vim-airline/vim-airline
-let g:airline#extensions#ctrlspace#enabled = 1
-let g:airline#extensions#tabline#switch_buffers_and_tabs = 0
 let g:airline_left_sep=''
 let g:airline_right_sep=''
-let g:airline_exclude_preview = 0
-let g:airline_skip_empty_sections = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 1
 let g:airline#extensions#tabline#show_tabs = 1
@@ -277,33 +273,8 @@ let g:airline_symbols.maxlinenr = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 
-let g:airline_theme_patch_func = 'AirlineThemePatch'
-function! AirlineThemePatch(palette)
-	if g:airline_theme ==? 'dark'
-		let s:a = ['#d0d0d0', '#444444', 252, 238]
-		let s:b = ['#d0d0d0', '#303030', 252, 236]
-		if (has('gui_running'))
-			let s:c = ['#eeeeee', '#212121', 255, 235]
-		else
-			let s:c = ['#eeeeee', 'NONE', 255, 235]
-		endif
-		let s:modified = {'airline_c': ['#bcbcbc', '#585858', 250, 240, '']}
-
-		let g:airline#themes#dark#palette.normal = airline#themes#generate_color_map(s:a, s:b, s:c)
-		let g:airline#themes#dark#palette.normal_modified = s:modified
-		let g:airline#themes#dark#palette.insert = copy(g:airline#themes#dark#palette.normal)
-		let g:airline#themes#dark#palette.insert_modified = g:airline#themes#dark#palette.normal_modified
-		let g:airline#themes#dark#palette.visual = copy(g:airline#themes#dark#palette.normal)
-		let g:airline#themes#dark#palette.visual_modified = g:airline#themes#dark#palette.normal_modified
-		let g:airline#themes#dark#palette.replace = copy(g:airline#themes#dark#palette.normal)
-		let g:airline#themes#dark#palette.replace_modified = g:airline#themes#dark#palette.insert_modified
-		let g:airline#themes#dark#palette.insert_paste = copy(g:airline#themes#dark#palette.normal)
-
-		if get(g:, 'loaded_ctrlp', 0)
-			let g:airline#themes#dark#palette.ctrlp = airline#extensions#ctrlp#generate_color_map(s:a, s:b, s:c)
-		endif
-	endif
-endfunction
+Plug 'vim-airline/vim-airline-themes' " https://github.com/vim-airline/vim-airline-themes
+let g:airline_theme='minimalist'
 
 if has('gui_running')
 	nmap <d-1> <Plug>AirlineSelectTab1

@@ -8,19 +8,10 @@ indent_size = 2
 indent_style = space
 insert_final_newline = true
 
-[*.{py,rs,go,elm}]
-indent_size = 4
+[*.{py,go,elm,erl,toml}]
 indent_style = tab
 
-[*.erl]
-indent_size = 2
-indent_style = tab
-
-[*.toml]
-indent_size = 2
-indent_style = tab
-
-[*.elm]
+[*.{elm,hs,java}]
 indent_size = 4
 indent_style = space
 
