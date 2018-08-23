@@ -3,7 +3,7 @@
 	email = ***REMOVED***
 
 [core]
-	editor = reattach-to-user-namespace vim
+	editor = vim
 	pager = less -x2R
 	excludesfile = ~/.gitignore
 
@@ -31,7 +31,7 @@
 
 ; merge conflicts
 [alias]
-	eum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; mvim `f`"
+	eum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; vim `f`"
 	aum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
 
 ; pretty log
@@ -54,11 +54,11 @@
 	helper = osxkeychain
 
 [merge]
-	tool = gvimdiff
+	tool = vimdiff
 	gpgsign = true
 
 [diff]
-	tool = gvimdiff
+	tool = vimdiff
 
 [push]
 	default = current
@@ -67,7 +67,7 @@
 	gpgSign = true
 
 [gpg]
-	program = /usr/local/bin/krgpg
+	program = /usr/bin/krgpg
 
 [tag]
 	forceSignAnnotated = true

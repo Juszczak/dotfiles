@@ -32,7 +32,6 @@ set shiftwidth=2
 set tabstop=2
 set shiftwidth=2
 set softtabstop=2
-set expandtab
 set shiftround
 set smarttab
 set nowrap
@@ -42,12 +41,11 @@ set colorcolumn=140
 set titlestring=%f title
 set sidescroll=2
 set number
-set listchars+=tab:·\ ,extends:,eol:$
+set listchars=tab:·\ ,extends:
 set list
 let &showbreak = '⤷ '
 set breakindent
-set fillchars+=vert:⎸
-" set fillchars+=vert:│
+set fillchars+=vert:│
 set showmode
 set formatoptions+=j
 
@@ -57,10 +55,23 @@ if !has('gui_running')
 		let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
 		let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
 	else
-		let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-		let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-		let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+		if has("unix")
+			au VimEnter,InsertLeave * silent execute '!echo -ne "\e[1 q"' | redraw!
+			au InsertEnter,InsertChange *
+						\ if v:insertmode == 'i' |
+						\   silent execute '!echo -ne "\e[5 q"' | redraw! |
+						\ elseif v:insertmode == 'r' |
+						\   silent execute '!echo -ne "\e[3 q"' | redraw! |
+						\ endif
+			au VimLeave * silent execute '!echo -ne "\e[ q"' | redraw!
+		endif
+		if has("darwin")
+			let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+			let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+			let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+		endif
 	endif
+
 	set termguicolors
 	set t_Co=256
 	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -131,13 +142,11 @@ function! s:WindowLeave()
 	setlocal nocursorline
 endfunction
 
-if has('gui_running')
-	augroup CurrentWindow
-		autocmd!
-		autocmd VimEnter,WinEnter,BufWinEnter * call s:WindowEnter()
-		autocmd WinLeave * call s:WindowLeave()
-	augroup END
-endif
+augroup CurrentWindow
+	autocmd!
+	autocmd VimEnter,WinEnter,BufWinEnter * call s:WindowEnter()
+	autocmd WinLeave * call s:WindowLeave()
+augroup END
 
 call plug#begin('~/.vim/plugged')
 
@@ -167,19 +176,7 @@ let g:NERDTreeSortOrder = [
 
 Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'tpope/vim-fugitive' " https://github.com/Xuyuanp/nerdtree-git-plugin
 let g:NERDTreeShowIgnoredStatus = 0
-let g:NERDTreeUseSimpleIndicator = 0
-let g:NERDTreeIndicatorMapCustom = {
-	\ 'Modified'  : '~',
-	\ 'Staged'    : '+',
-	\ 'Untracked' : '•',
-	\ 'Renamed'   : '→',
-	\ 'Unmerged'  : '═',
-	\ 'Deleted'   : '-',
-	\ 'Dirty'     : '×',
-	\ 'Clean'     : '*',
-	\ 'Ignored'   : '¬',
-	\ 'Unknown'   : '?'
-	\ }
+let g:NERDTreeUseSimpleIndicator = 1
 
 Plug 'airblade/vim-gitgutter' | Plug 'tpope/vim-fugitive' " https://github.com/airblade/vim-gitgutter
 let g:gitgutter_sign_added = '·'
@@ -288,7 +285,7 @@ if has('gui_running')
 	nmap <d-9> <Plug>AirlineSelectTab9
 endif
 
-Plug 'jaxbot/semantic-highlight.vim' " https://github.com/jaxbot/semantic-highlight.vim
+Plug 'juszczak/semantic-highlight.vim' " https://github.com/jaxbot/semantic-highlight.vim
 nmap <leader>s :SemanticHighlight<cr>
 
 let g:semantic_highlight_filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart', 'go', 'erlang', 'solidity', 'haskell']

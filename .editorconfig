@@ -7,6 +7,7 @@ trim_trailing_whitespace = true
 indent_size = 2
 indent_style = space
 insert_final_newline = true
+max_line_length = 100
 
 [*.{py,go,elm,erl,toml}]
 indent_style = tab
@@ -16,4 +17,7 @@ indent_size = 4
 indent_style = space
 
 [*.{vim,vimrc,gitconfig}]
+indent_style = tab
+
+[{Makefile,**.mk}]
 indent_style = tab
