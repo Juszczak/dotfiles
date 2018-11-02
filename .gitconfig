@@ -1,54 +1,14 @@
 [user]
-	name = ***REMOVED***
-	email = ***REMOVED***
+	name =
+	email =
 
 [core]
-	editor = reattach-to-user-namespace vim
+	editor = vim
 	pager = less -x2R
 	excludesfile = ~/.gitignore
 
-; shortcuts
-; [alias]
-; 	br = branch
-; 	bv = branch -vv
-; 	merge = merge -S -s
-; 	ca = commit --amend --no-edit -S -s
-; 	ch = checkout
-; 	cm = commit -S -s
-; 	dc = diff --cached
-; 	df = diff
-; 	dt = difftool
-; 	lgp = log -p
-; 	mt = mergetool
-; 	st = status
-; 	stat = diff --stat
-; 	sts = status -s -b
-; 	who = shortlog -s --
-
-; list last used branches
-[alias]
-	bl = "!bash -c 'for k in `git branch|sed s/^..//`;do echo -e `git log -1 --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset\" \"$k\" --`\t\"$k\";done|sort'"
-
-; merge conflicts
-[alias]
-	eum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; mvim `f`"
-	aum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
-
-; pretty log
-[alias]
-	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
-
-; fetched commits
-[alias]
-	wc = log ORIG_HEAD.. --stat --no-merges
-
-; whats new
-; [alias]
-; 	yd = diff "@{yesterday}"
-
 [color]
 	ui = auto
-	; ui = always
 
 [credential]
 	helper = osxkeychain
@@ -59,9 +19,6 @@
 
 [diff]
 	tool = gvimdiff
-
-[push]
-	default = current
 
 [commit]
 	gpgSign = true
@@ -76,3 +33,11 @@
 	clean = git-lfs clean -- %f
 	smudge = git-lfs smudge -- %f
 	required = true
+
+[alias]
+	bl = "!bash -c 'for k in `git branch|sed s/^..//`;do echo -e `git log -1 --pretty=format:\"%Cgreen%ci %Cblue%cr%Creset\" \"$k\" --`\t\"$k\";done|sort'"
+	eum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; mvim `f`"
+	aum = "!f() { git diff --name-status --diff-filter=U | cut -f2 ; }; git add `f`"
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+	wc = log ORIG_HEAD.. --stat --no-merges
+	yd = diff "@{yesterday}"

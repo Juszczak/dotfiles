@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 for i in {0..255}; do
   if ((i < 10)); then
     printf " "

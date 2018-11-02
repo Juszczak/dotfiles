@@ -30,7 +30,6 @@ set hlsearch
 set smartcase
 set shiftwidth=2
 set tabstop=2
-set shiftwidth=2
 set softtabstop=2
 set expandtab
 set shiftround
@@ -42,12 +41,11 @@ set colorcolumn=140
 set titlestring=%f title
 set sidescroll=2
 set number
-set listchars+=tab:·\ ,extends:,eol:$
+set listchars=tab:·\ ,extends:,trail:·
 set list
 let &showbreak = '⤷ '
 set breakindent
-set fillchars+=vert:⎸
-" set fillchars+=vert:│
+set fillchars=fold:-
 set showmode
 set formatoptions+=j
 
@@ -83,16 +81,8 @@ set viewoptions=
 	\unix,
 	\slash
 
-cnoremap <c-k> <up>
-cnoremap <c-j> <down>
-
-cmap w!! w !sudo tee > /dev/null %
-
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
-
-" http://vim.wikia.com/wiki/Improved_hex_editing
-nmap <f12> :%!xxd<cr>
 
 if !has('gui_running')
 	function! ToggleCopyPasteMode()
@@ -141,6 +131,26 @@ endif
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'vim-airline/vim-airline' " https://github.com/vim-airline/vim-airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_left_sep=''
+let g:airline_right_sep=''
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
+let g:airline#extensions#tabline#buffer_nr_format = '%s '
+let g:airline#extensions#tabline#fnamemod = ':t:.'
+if !exists('g:airline_symbols')
+	let g:airline_symbols = {
+				\ 'linenr': '☰',
+				\ 'maxlinenr': '',
+				\ 'branch': '',
+				\ 'readonly': ''
+				\ }
+endif
+
+Plug 'vim-airline/vim-airline-themes' " https://github.com/vim-airline/vim-airline-themes
+let g:airline_theme='minimalist'
+
 Plug 'sheerun/vim-polyglot' " https://github.com/sheerun/vim-polyglot
 let g:jsx_ext_required = 1
 let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
@@ -154,16 +164,6 @@ let g:NERDTreeIgnore = ['\.DS_Store$', '\Icon$', '\~$']
 let g:NERDTreeShowBookmarks = 1
 let g:NERDTreeBookmarksSort = 0
 let g:NERDTreeMinimalUI = 1
-let g:NERDTreeSortOrder = [
-	\ '\.git/$',
-	\ 'bower_components',
-	\ 'node_modules',
-	\ '\/$',
-	\ '*',
-	\ '\.editorconfig',
-	\ 'README',
-	\ 'LICENSE',
-	\ ]
 
 Plug 'Xuyuanp/nerdtree-git-plugin' | Plug 'tpope/vim-fugitive' " https://github.com/Xuyuanp/nerdtree-git-plugin
 let g:NERDTreeShowIgnoredStatus = 0
@@ -188,17 +188,9 @@ let g:gitgutter_sign_removed = '·'
 let g:gitgutter_sign_removed_first_line = '·'
 let g:gitgutter_sign_modified_removed = '·'
 
-Plug 'natebosch/vim-lsc' " https://github.com/natebosch/vim-lsc
-let g:lsc_server_commands = {'dart': 'dart_language_server'}
-let g:lsc_enable_autocomplete = v:false
-let g:lsc_auto_map = {
-	\ 'GoToDefinition': '<C-]>',
-	\ 'FindReferences': 'gr',
-	\ 'ShowHover': 'ty',
-	\ 'Completion': 'omnifunc',
-	\}
-
-Plug 'Valloric/YouCompleteMe', { 'do': './install.py --all' }
+Plug 'Valloric/YouCompleteMe', {
+			\ 'do': './install.py --go-completer --rust-completer --java-completer --clang-completer'
+			\ }
 let g:ycm_error_symbol = '!'
 let g:ycm_warning_symbol = '△'
 let g:ycm_semantic_triggers = {}
@@ -210,9 +202,9 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_always_populate_location_list = 1
 let g:ycm_collect_identifiers_from_comments_and_strings = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_rust_src_path = $RUST_SRC_PATH
 
 let g:ycm_mappings_filetypes = ['typescript', 'javascript', 'python', 'rust', 'go']
+
 function! MapYcmCompleter()
 	if (!empty(&filetype) && join(g:ycm_mappings_filetypes) =~ &filetype)
 		noremap <buffer> <silent> <C-LeftMouse> :YcmCompleter GoToDefinition<cr>
@@ -228,73 +220,38 @@ augroup MapYcmCompleter
 	autocmd VimEnter,WinEnter,BufWinEnter * call MapYcmCompleter()
 augroup END
 
-Plug 'ElmCast/elm-vim' " https://github.com/ElmCast/elm-vim
 Plug 'ctrlpvim/ctrlp.vim' " https://github.com/ctrlpvim/ctrlp.vim
-nmap <leader>cc :CtrlPClearAllCaches<cr>
 let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_user_command = ['.git/', 'git --git-dir=%s/.git ls-files -oc --exclude-standard']
+let g:ctrlp_root_markers = ['package.json']
+let g:ctrlp_custom_ignore = 'node_modules\|bower_components\|DS_Store\|git'
+let g:ctrlp_user_command = ['.git/', 'git ls-files -oc --exclude-standard']
+let g:ctrlp_cmd = 'call CallCtrlP()'
 
-Plug 'vim-airline/vim-airline' " https://github.com/vim-airline/vim-airline
-let g:airline_left_sep=''
-let g:airline_right_sep=''
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 1
-let g:airline#extensions#tabline#show_tabs = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-let g:airline#extensions#tabline#buffer_nr_show = 1
-let g:airline#extensions#tabline#buffer_nr_format = '%s '
-let g:airline#extensions#tabline#fnamemod = ':s?NERD_tree_1?tree?:s?ControlP?open?:t:.'
-let g:airline#extensions#tabline#fnamecollapse = 1
-let g:airline#extensions#tabline#fnametruncate = 0
-let g:airline#extensions#tabline#buffer_min_count = 1
-let g:airline#extensions#tabline#tab_min_count = 2
+func! CallCtrlP()
+	if exists('s:called_ctrlp')
+		CtrlPLastMode
+	else
+		let s:called_ctrlp = 1
+		CtrlPMRU
+	endif
+endfunc
 
-let g:airline#extensions#tabline#formatter = 'unique_tail_improved'
-let g:airline#extensions#tabline#left_sep = ''
-let g:airline#extensions#tabline#left_alt_sep = ''
-let g:airline#extensions#tabline#right_sep = ''
-let g:airline#extensions#tabline#right_alt_sep = ''
+Plug 'juszczak/semantic-highlight.vim' " https://github.com/jaxbot/semantic-highlight.vim
 
-let g:airline#extensions#tabline#reverse_buffers_and_tabs = 1
-let g:airline#extensions#tabline#show_close_button = 1
-let g:airline#extensions#tabline#close_symbol = '×'
+let g:semantic_highlight_filetypes = ['typescript',
+			\ 'javascript',
+			\ 'python',
+			\ 'rust',
+			\ 'java',
+			\ 'dart',
+			\ 'go',
+			\ 'erlang',
+			\ 'solidity',
+			\ 'haskell',
+			\ 'lua'
+			\ ]
 
-let g:airline#extensions#tabline#tabs_label = ''
-let g:airline#extensions#tabline#buffers_label = ''
-
-let g:airline#extensions#tabline#ignore_bufadd_pat = '\c\vgundo|undotree|vimfiler|tagbar|nerd_tree'
-
-if !exists('g:airline_symbols')
-	let g:airline_symbols = {}
-endif
-
-let g:airline_symbols.linenr = '☰'
-let g:airline_symbols.maxlinenr = ''
-let g:airline_symbols.branch = ''
-let g:airline_symbols.readonly = ''
-
-Plug 'vim-airline/vim-airline-themes' " https://github.com/vim-airline/vim-airline-themes
-let g:airline_theme='minimalist'
-
-if has('gui_running')
-	nmap <d-1> <Plug>AirlineSelectTab1
-	nmap <d-2> <Plug>AirlineSelectTab2
-	nmap <d-3> <Plug>AirlineSelectTab3
-	nmap <d-4> <Plug>AirlineSelectTab4
-	nmap <d-5> <Plug>AirlineSelectTab5
-	nmap <d-6> <Plug>AirlineSelectTab6
-	nmap <d-7> <Plug>AirlineSelectTab7
-	nmap <d-8> <Plug>AirlineSelectTab8
-	nmap <d-9> <Plug>AirlineSelectTab9
-endif
-
-Plug 'jaxbot/semantic-highlight.vim' " https://github.com/jaxbot/semantic-highlight.vim
-nmap <leader>s :SemanticHighlight<cr>
-
-let g:semantic_highlight_filetypes = ['typescript', 'javascript', 'python', 'rust', 'java', 'dart', 'go', 'erlang', 'solidity', 'haskell']
 function! s:Escape()
-	" MacVim issue
-	:silent nohlsearch
 	if (!empty(&filetype) && join(g:semantic_highlight_filetypes) =~ &filetype)
 		:SemanticHighlight
 	endif
@@ -321,28 +278,14 @@ let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 0
 let g:ale_dart_dartanalyzer_executable = '/usr/local/bin/dartanalyzer'
 let g:ale_linters = {
-	\'rust': ['rustc'],
+	\ 'javascript': ['tsserver'],
 \ }
 
-Plug 'vim-erlang/vim-erlang-runtime' " https://github.com/vim-erlang/vim-erlang-runtime
-let g:polyglot_disabled = ['erlang']
-
-Plug 'https://github.com/nbouscal/vim-stylish-haskell' " https://github.com/nbouscal/vim-stylish-haskell
-
-Plug 'eagletmt/neco-ghc' " https://github.com/eagletmt/neco-ghc
-
-Plug 'vim-erlang/vim-erlang-omnicomplete' " https://github.com/vim-erlang/vim-erlang-omnicomplete
 Plug 'sbdchd/neoformat' " https://github.com/sbdchd/neoformat
-nmap <leader>f :Neoformat<cr>
 let g:neoformat_enabled_typescript = ['prettier']
 let g:neoformat_enabled_javascript = ['prettier']
 
 let g:format_on_save_filetypes = ['dart', 'go']
-function! Format()
-	if (!empty(&filetype) && join(g:format_on_save_filetypes) =~ &filetype)
-		Neoformat
-	endif
-endfunction
 
 Plug 'alvan/vim-closetag' " https://github.com/alvan/vim-closetag
 Plug 'jiangmiao/auto-pairs' " https://github.com/jiangmiao/auto-pairs
@@ -357,7 +300,3 @@ Plug 'mbbill/undotree' " https://github.com/mbbill/undotree
 Plug 'tpope/vim-scriptease' " https://github.com/tpope/vim-scriptease
 
 call plug#end()
-
-map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
