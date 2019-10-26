@@ -5,8 +5,12 @@
 .tmux/plugins/*
 .tmux/resurrect/*
 
+.vim/ansiesc.vba
+.vim/autoload
 .vim/autoload/plug.vim
+.vim/doc/*
 .vim/plugged/*
+.vim/plugin/cecutil.vim
 .vim/undodir/*
 .vim/view/*
 
