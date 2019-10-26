@@ -2,11 +2,13 @@ import iterm2
 import argparse
 import random
 import string
+import os
 
 parser = argparse.ArgumentParser(description='Open new iTerm tab and execute specified command.')
 
 parser.add_argument('-n', metavar='name', type=str, help='session name', dest='name', nargs='*')
 parser.add_argument('-c', metavar='command', type=str, help='command to execute', dest='command', nargs='*')
+parser.add_argument('-p', metavar='path', type=str, help='path for new tab', dest='path')
 parser.add_argument('-q', metavar='quit', type=str, help='tab to close', dest='quit', nargs='*')
 parser.add_argument('-r', metavar='rename', type=str, help='new tab name', dest='rename', nargs='*')
 
@@ -32,6 +34,10 @@ async def setup_session(session):
 	else:
 		await session.async_set_name(rand_name())
 
+	if args.path != None:
+		path = args.path if args.path != '.' else os.getcwd()
+		await session.async_send_text('cd {path}\n'.format(path = path))
+
 	if args.command != None:
 		await session.async_send_text(
 			'{command}\n'.format(
@@ -54,9 +60,9 @@ async def close_tab(window):
 			try:
 				await first(possible_tabs).async_close()
 			except:
-				print('declined')
+				print('declined to close:', tab_name)
 		else:
-			print('not found')
+			print('not found:', tab_name)
 	else:
 		print('closing current tab')
 		await window.current_tab.async_close()
