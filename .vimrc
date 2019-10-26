@@ -84,6 +84,9 @@ set viewoptions=
 vnoremap J :m '>+1<cr>gv=gv
 vnoremap K :m '<-2<cr>gv=gv
 
+cnoremap <c-p> <Up>
+cnoremap <c-n> <Down>
+
 if !has('gui_running')
 	function! ToggleCopyPasteMode()
 		set invpaste paste?
@@ -151,12 +154,7 @@ endif
 Plug 'vim-airline/vim-airline-themes' " https://github.com/vim-airline/vim-airline-themes
 let g:airline_theme='minimalist'
 
-Plug 'sheerun/vim-polyglot' " https://github.com/sheerun/vim-polyglot
-let g:jsx_ext_required = 1
-let g:typescript_opfirst='\%([<>=,?^%|*/&]\|\([-:+]\)\1\@!\|!=\|in\%(stanceof\)\=\>\)'
-
 Plug 'tpope/vim-commentary' " https://github.com/tpope/vim-commentary
-Plug 'itchyny/vim-cursorword' " https://github.com/itchyny/vim-cursorword
 Plug 'scrooloose/nerdtree' " https://github.com/scrooloose/nerdtree
 nmap <silent> tt :NERDTreeToggle<cr>
 nmap <silent> tf :NERDTreeFind<cr>
@@ -189,7 +187,7 @@ let g:gitgutter_sign_removed_first_line = '·'
 let g:gitgutter_sign_modified_removed = '·'
 
 Plug 'Valloric/YouCompleteMe', {
-			\ 'do': './install.py --go-completer --rust-completer --java-completer --clang-completer'
+			\ 'do': './install.py --go-completer --rust-completer --java-completer --clangd-completer'
 			\ }
 let g:ycm_error_symbol = '!'
 let g:ycm_warning_symbol = '△'
@@ -238,7 +236,8 @@ endfunc
 
 Plug 'juszczak/semantic-highlight.vim' " https://github.com/jaxbot/semantic-highlight.vim
 
-let g:semantic_highlight_filetypes = ['typescript',
+let g:semantic_highlight_filetypes = [
+			\ 'typescript',
 			\ 'javascript',
 			\ 'python',
 			\ 'rust',
@@ -272,7 +271,7 @@ nmap <silent> [a <Plug>(ale_previous_wrap)
 nmap <silent> ]a <Plug>(ale_next_wrap)
 let g:ale_fixers = {
 	\ 'typescript': ['tslint'],
-	\ 'javascript': ['prettier']
+	\ 'scss': ['stylelint'],
 	\ }
 let g:ale_completion_enabled = 0
 let g:ale_fix_on_save = 0
