@@ -1,0 +1,6 @@
+[submodule ".vim/pack/default/start/coc"]
+	path = .vim/pack/default/start/coc
+	url = git@github.com:neoclide/coc.nvim.git
+[submodule ".vim/pack/default/start/nerdtree"]
+	path = .vim/pack/default/start/nerdtree
+	url = git@github.com:preservim/nerdtree.git
